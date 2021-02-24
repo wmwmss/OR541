@@ -1,0 +1,115 @@
+'''Python program for Dijkstra's shortest path algorithm.
+The program is for adjacency matrix representation of the graph'''
+
+
+import sys
+import xlrd
+import pandas as pd
+import numpy as np
+
+class Graph():
+
+	def __init__(self, vertices):
+		self.V = vertices
+		self.graph = [[0 for column in range(vertices)]
+					for row in range(vertices)]
+
+	def printSolution(self, dist, output):
+		#print("Vertex \tDistance from Source")
+		#dist = pd.DataFrame(dist)
+		for node in range(self.V):
+			dist.append(dist[node])
+		print(vector)
+		output = output.append(vector)
+		return output
+
+	def generateSolution(self, dist, output):
+		#print("Vertex \tDistance from Source")
+		#dist = pd.DataFrame(dist)
+		for node in range(self.V):
+			dist.append(dist[node])
+		# print(vector)
+		output = output.append(vector)
+		return output
+
+
+	# A utility function to find the vertex with
+	# minimum distance value, from the set of vertices
+	# not yet included in shortest path tree
+	def minDistance(self, dist, sptSet):
+
+		# Initilaize minimum distance for next node
+		min = sys.maxsize
+
+		# Search not nearest vertex not in the
+		# shortest path tree
+		for v in range(self.V):
+			if dist[v] < min and sptSet[v] == False:
+				min = dist[v]
+				min_index = v
+
+		return min_index
+
+	# Funtion that implements Dijkstra's single source
+	# shortest path algorithm for a graph represented
+	# using adjacency matrix representation
+	def dijkstra(self, src, output):
+
+		dist = [sys.maxsize] * self.V
+		dist[src] = 0
+		sptSet = [False] * self.V
+
+		for cout in range(self.V):
+
+			# Pick the minimum distance vertex from
+			# the set of vertices not yet processed.
+			# u is always equal to src in first iteration
+			u = self.minDistance(dist, sptSet)
+
+			# Put the minimum distance vertex in the
+			# shotest path tree
+			sptSet[u] = True
+
+			# Update dist value of the adjacent vertices
+			# of the picked vertex only if the current
+			# distance is greater than new distance and
+			# the vertex in not in the shotest path tree
+			for v in range(self.V):
+				if self.graph[u][v] > 0 and sptSet[v] == False and \
+				dist[v] > dist[u] + self.graph[u][v]:
+						dist[v] = dist[u] + self.graph[u][v]
+
+		# self.printSolution(dist, output)
+		self.generateSolution(dist, output)
+
+
+def main():
+	if __name__ == "__main__":
+		main()
+
+	# read in input matrix
+	file = (r"..\OR541\data\ProjectGroupB.xlsx")
+	input_matrix = pd.read_excel(open(file, 'rb'), sheet_name='Airfare Input Matrix')
+	print(input_matrix)
+
+	# get shape
+	nrows = len(input_matrix.index)
+	ncolumns = len(input_matrix.columns)
+
+	# create graph
+	g = Graph(11)
+	g.graph = input_matrix.values
+
+	# run Dijkstra and generate output matrix
+
+	output_matrix = pd.DataFrame()
+	g.dijkstra(0,output_matrix)
+
+	for rows in range(nrows):
+		g.dijkstra(rows,output_matrix)
+
+
+	print(output_matrix)
+
+'''Authors: Chu Chuan, Dang, Xu
+special thanks to Divyanshu Mehta'''
